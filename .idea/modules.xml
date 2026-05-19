@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/nacos-client-example/nacos-client-example.iml" filepath="$PROJECT_DIR$/nacos-client-example/nacos-client-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-cmdb-plugin-example/nacos-cmdb-plugin-example.iml" filepath="$PROJECT_DIR$/nacos-cmdb-plugin-example/nacos-cmdb-plugin-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-dubbo-example/nacos-dubbo-example.iml" filepath="$PROJECT_DIR$/nacos-dubbo-example/nacos-dubbo-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-grpc-example/nacos-grpc-example.iml" filepath="$PROJECT_DIR$/nacos-grpc-example/nacos-grpc-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-health-plugin-example/nacos-health-plugin-example.iml" filepath="$PROJECT_DIR$/nacos-health-plugin-example/nacos-health-plugin-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-sentinel-example/nacos-sentinel-example.iml" filepath="$PROJECT_DIR$/nacos-sentinel-example/nacos-sentinel-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-config-example/nacos-spring-boot-config-example.iml" filepath="$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-config-example/nacos-spring-boot-config-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-config-mysql-example/nacos-spring-boot-config-mysql-example.iml" filepath="$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-config-mysql-example/nacos-spring-boot-config-mysql-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-discovery-example/nacos-spring-boot-discovery-example.iml" filepath="$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-discovery-example/nacos-spring-boot-discovery-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-example.iml" filepath="$PROJECT_DIR$/nacos-spring-boot-example/nacos-spring-boot-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-config-example/nacos-spring-cloud-config-example.iml" filepath="$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-config-example/nacos-spring-cloud-config-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-config-multi-data-ids-example/nacos-spring-cloud-config-multi-data-ids-example.iml" filepath="$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-config-multi-data-ids-example/nacos-spring-cloud-config-multi-data-ids-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-discovery-example/nacos-spring-cloud-consumer-example/nacos-spring-cloud-consumer-example.iml" filepath="$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-discovery-example/nacos-spring-cloud-consumer-example/nacos-spring-cloud-consumer-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-discovery-example/nacos-spring-cloud-discovery-example.iml" filepath="$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-discovery-example/nacos-spring-cloud-discovery-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-example.iml" filepath="$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-discovery-example/nacos-spring-cloud-provider-example/nacos-spring-cloud-provider-example.iml" filepath="$PROJECT_DIR$/nacos-spring-cloud-example/nacos-spring-cloud-discovery-example/nacos-spring-cloud-provider-example/nacos-spring-cloud-provider-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-datasource-example/nacos-spring-config-datasource-example.iml" filepath="$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-datasource-example/nacos-spring-config-datasource-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-example/nacos-spring-config-example.iml" filepath="$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-example/nacos-spring-config-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-listener-example/nacos-spring-config-listener-example.iml" filepath="$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-listener-example/nacos-spring-config-listener-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-multi-data-ids-example/nacos-spring-config-multi-data-ids-example.iml" filepath="$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-multi-data-ids-example/nacos-spring-config-multi-data-ids-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-pojo-example/nacos-spring-config-pojo-example.iml" filepath="$PROJECT_DIR$/nacos-spring-example/nacos-spring-config-pojo-example/nacos-spring-config-pojo-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-example/nacos-spring-discovery-example/nacos-spring-discovery-example.iml" filepath="$PROJECT_DIR$/nacos-spring-example/nacos-spring-discovery-example/nacos-spring-discovery-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nacos-spring-example/nacos-spring-example.iml" filepath="$PROJECT_DIR$/nacos-spring-example/nacos-spring-example.iml" />
+    </modules>
+  </component>
+</project>
