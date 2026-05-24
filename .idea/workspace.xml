@@ -5,15 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="baf7ad67-5661-49db-9ad5-3125f2fae733" name="Changes" comment="build maven dependencies">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nacos-config-example/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/src/main/java/com/alibaba/nacos/example/NacosConfigExampleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/nacos-config-example/src/main/java/com/alibaba/nacos/example/NacosConfigExampleApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/src/main/resources/bootstrap.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/classes/bootstrap.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/classes/com/alibaba/nacos/example/NacosConfigExampleApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/surefire-reports/TEST-com.alibaba.nacos.example.NacosConfigExampleApplicationTests.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/surefire-reports/com.alibaba.nacos.example.NacosConfigExampleApplicationTests.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nacos-config-example/target/test-classes/com/alibaba/nacos/example/NacosConfigExampleApplicationTests.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alibaba/nacos/NacosExampleApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/bootstrap.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/alibaba/nacos/nacosexample/NacosExampleApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -26,16 +62,20 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Yuuu97/nacos-example.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/Yuuu97/nacos-examples.git&quot;,
     &quot;accountId&quot;: &quot;50dedf32-5eb2-40a3-bd38-0356fca58742&quot;
   }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
 }</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="customMavenHome" value="$USER_HOME$/Environment/Maven/apache-maven-3.9.14" />
         <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
-        <option name="userSettingsFile" value="$USER_HOME$/Environment/Maven/apache-maven-3.9.14/conf/settings.xml" />
+        <option name="userSettingsFile" value="$USER_HOME$/Environment/Maven/apache-maven-3.9.14/conf/nacos-sdk-2.4.3-settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -54,6 +94,9 @@
   "keyToString": {
     "Application.NacosConfigExampleApplication.executor": "Debug",
     "Application.NacosExampleApplication.executor": "Debug",
+    "Maven.nacos-config-example [clean].executor": "Run",
+    "Maven.nacos-config-example [install].executor": "Run",
+    "Maven.nacos-examples [clean,install...].executor": "Run",
     "Maven.nacos-examples [clean,install].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
@@ -65,15 +108,18 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "Spring Boot.NacosConfigExampleApplication.executor": "Debug",
+    "Spring Boot.NacosConsumerExampleApplication.executor": "Debug",
     "Spring Boot.NacosExampleApplication.executor": "Debug",
+    "Spring Boot.NacosProviderExampleApplication.executor": "Debug",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/qinyu/Project/javaproject/nacos-examples/nacos-config-example/src/main/resources",
+    "last_opened_file_path": "/Users/qinyu/Project/javaproject/nacos-examples/pom.xml",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Problems",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
     "settings.editor.selected.configurable": "MavenSettings",
     "vue.rearranger.settings.migration": "true"
   }
@@ -82,6 +128,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/nacos-config-example/src/main/resources" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/nacos-provider-example/src/main/java/com/alibaba/nacos/example" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.alibaba.nacos" />
     </key>
@@ -89,6 +138,30 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />
+      <command value="mvn clean install -DskipTests" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <map>
+              <entry key="NacosConfigExampleApplication" value="STOPPED" />
+              <entry key="NacosConsumerExampleApplication" value="STOPPED" />
+              <entry key="NacosProviderExampleApplication" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.NacosConfigExampleApplication">
@@ -125,9 +198,30 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NacosConsumerExampleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="nacos-consumer-example" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.alibaba.nacos.example.NacosConsumerExampleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="NacosExampleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="nacos-examples" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.alibaba.nacos.NacosExampleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NacosNamingExampleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="nacos-naming-example" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.alibaba.nacos.example.NacosNamingExampleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NacosProviderExampleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="nacos-provider-example" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.alibaba.nacos.example.NacosProviderExampleApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -138,6 +232,9 @@
         <item itemvalue="Application.NacosExampleApplication" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -152,7 +249,19 @@
       <workItem from="1779033302913" duration="670000" />
       <workItem from="1779067298276" duration="623000" />
       <workItem from="1779151437420" duration="168000" />
-      <workItem from="1779151634322" duration="3204000" />
+      <workItem from="1779151634322" duration="3348000" />
+      <workItem from="1779163897952" duration="29348000" />
+      <workItem from="1779253111880" duration="775000" />
+      <workItem from="1779255146237" duration="255000" />
+      <workItem from="1779255404785" duration="163000" />
+      <workItem from="1779255582556" duration="2333000" />
+      <workItem from="1779258671371" duration="96000" />
+      <workItem from="1779258784266" duration="2123000" />
+      <workItem from="1779261915796" duration="607000" />
+      <workItem from="1779283168260" duration="634000" />
+      <workItem from="1779313340307" duration="6691000" />
+      <workItem from="1779331076282" duration="1250000" />
+      <workItem from="1779332337176" duration="39093000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -170,7 +279,15 @@
       <option name="project" value="LOCAL" />
       <updated>1779154406469</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="build maven dependencies">
+      <option name="closed" value="true" />
+      <created>1779154855829</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1779154855829</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,5 +297,51 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="build maven dependencies" />
     <option name="LAST_COMMIT_MESSAGE" value="build maven dependencies" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/repository/com/alibaba/cloud/spring-cloud-starter-alibaba-nacos-config/2023.0.3.4/spring-cloud-starter-alibaba-nacos-config-2023.0.3.4-sources.jar!/com/alibaba/cloud/nacos/NacosConfigSpringCloudAutoConfiguration.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/repository/com/alibaba/cloud/spring-cloud-starter-alibaba-nacos-config/2023.0.3.4/spring-cloud-starter-alibaba-nacos-config-2023.0.3.4-sources.jar!/com/alibaba/cloud/nacos/NacosConfigSpringCloudBootstrapConfiguration.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/repository/com/alibaba/nacos/nacos-client/2.4.3/nacos-client-2.4.3-sources.jar!/com/alibaba/nacos/shaded/io/grpc/internal/ClientCallImpl.java</url>
+          <line>521</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/repository/com/alibaba/nacos/nacos-client/2.4.3/nacos-client-2.4.3-sources.jar!/com/alibaba/nacos/shaded/io/grpc/internal/DelayedClientCall.java</url>
+          <line>346</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/repository/com/alibaba/nacos/nacos-client/2.4.3/nacos-client-2.4.3-sources.jar!/com/alibaba/nacos/shaded/io/grpc/internal/RetriableStream.java</url>
+          <line>581</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/nacos-2.4.3-sdk-repositor/org/springframework/cloud/spring-cloud-context/4.1.5/spring-cloud-context-4.1.5-sources.jar!/org/springframework/cloud/endpoint/event/RefreshEventListener.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/nacos-2.4.3-sdk-repository/com/alibaba/cloud/spring-alibaba-nacos-config/2023.0.3.4/spring-alibaba-nacos-config-2023.0.3.4-sources.jar!/com/alibaba/cloud/nacos/annotation/NacosPropertiesKeyListener.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Environment/Maven/apache-maven-3.9.14/nacos-2.4.3-sdk-repository/org/springframework/cloud/spring-cloud-context/4.1.5/spring-cloud-context-4.1.5-sources.jar!/org/springframework/cloud/context/scope/refresh/RefreshScope.java</url>
+          <line>142</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
