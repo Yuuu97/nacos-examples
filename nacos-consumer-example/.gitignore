@@ -1,0 +1,12 @@
+# ============================================================
+# nacos-consumer-example 子模块 .gitignore
+# 技术栈：Spring Boot 3.2.5 + Nacos Discovery + OpenFeign + Java 17
+# 父模块 .gitignore 已覆盖 IDE/OS/Maven 通用规则，
+# 本文件仅定义模块特有的忽略项
+# ============================================================
+
+# Maven 构建输出目录
+target/
+
+# Spring Boot DevTools 本地缓存
+.spring-boot-devtools.properties

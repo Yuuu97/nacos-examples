@@ -1,0 +1,89 @@
+# ============================================================
+# 父模块 .gitignore — Maven 多模块项目（Spring Boot 3.2.5 / Java 17）
+# 规则按层级生效，子模块无需重复定义已被父模块覆盖的模式
+# ============================================================
+
+# -------------------- Maven 构建输出 --------------------
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.jar
+!src/main/resources/**/*.jar
+*.war
+*.ear
+
+# -------------------- Java 编译产物 --------------------
+*.class
+*.ctxt
+*.log
+*.tmp
+
+# -------------------- Maven Wrapper --------------------
+# 保留 maven-wrapper.properties，忽略下载的 jar
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+# 如需保留 wrapper，取消下面一行的注释
+# !.mvn/wrapper/maven-wrapper.properties
+
+# -------------------- IDE — IntelliJ IDEA --------------------
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# -------------------- IDE — Eclipse --------------------
+.classpath
+.project
+.settings/
+.springBeans
+.factorypath
+
+# -------------------- IDE — VS Code --------------------
+.vscode/
+*.code-workspace
+
+# -------------------- IDE — NetBeans --------------------
+nbproject/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# -------------------- macOS --------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# -------------------- Windows --------------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# -------------------- Linux --------------------
+*~
+.directory
+
+# -------------------- 日志文件 --------------------
+logs/
+*.log
+
+# -------------------- 临时文件 --------------------
+*.swp
+*.swo
+*.bak
+*.orig
+*.patch
+*.diff
+
+# -------------------- 环境配置（敏感信息） --------------------
+.env
+.env.local
+.env.*.local
+
+# -------------------- CodeBuddy --------------------
+# .codebuddy/ 目录为项目级数据，不提交到版本库
+.codebuddy/
