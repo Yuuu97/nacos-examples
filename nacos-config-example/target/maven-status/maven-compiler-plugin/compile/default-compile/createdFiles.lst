@@ -1,7 +1,0 @@
-com/alibaba/nacos/example/controller/NacosApiController.class
-com/alibaba/nacos/example/config/DynamicConfigProperties.class
-com/alibaba/nacos/example/controller/NacosApiController$2.class
-com/alibaba/nacos/example/listener/ConfigChangeMonitor.class
-com/alibaba/nacos/example/controller/NacosApiController$1.class
-com/alibaba/nacos/example/controller/ConfigDemoController.class
-com/alibaba/nacos/example/NacosConfigExampleApplication.class
