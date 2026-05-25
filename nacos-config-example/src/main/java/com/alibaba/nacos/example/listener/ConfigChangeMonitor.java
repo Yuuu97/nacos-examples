@@ -103,6 +103,7 @@ public class ConfigChangeMonitor {
         log.info("        → NacosConfigRefreshEventListener 转换事件 → RefreshScope 刷新完成");
         log.info("======================================================");
     }
+    
 
     // ============================================================
     // 定时打印 — 演示 config.getRefreshInterval() 动态调整轮询频率

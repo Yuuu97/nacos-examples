@@ -30,12 +30,17 @@ nacos-config-example/
     ├── java/com/alibaba/nacos/example/
     │   ├── NacosConfigExampleApplication.java    # 启动类（@SpringBootApplication + @EnableScheduling）
     │   ├── config/
-    │   │   └── DynamicConfigProperties.java      # 动态配置属性（@ConfigurationProperties + @RefreshScope）
+    │   │   ├── DynamicConfigProperties.java      # 动态配置属性（@ConfigurationProperties + @RefreshScope）
+    │   │   └── NacosConfigAnnotationDemo.java    # @NacosConfig 字段注入演示（6 种类型）
     │   ├── controller/
+    │   │   ├── AnnotationDemoController.java     # 注解示例 REST 验证接口（@NacosConfig + @NacosConfigListener）
     │   │   ├── ConfigDemoController.java         # 配置演示（@RefreshScope + @Value 注入）
     │   │   └── NacosApiController.java           # ConfigService API 直接调用演示
-    │   └── listener/
-    │       └── ConfigChangeMonitor.java          # 事件监听 + 定时配置打印
+    │   ├── listener/
+    │   │   ├── ConfigChangeMonitor.java          # 事件监听 + 定时配置打印
+    │   │   └── NacosConfigListenerDemo.java      # @NacosConfigListener 方法监听演示（6 种参数类型）
+    │   └── model/
+    │       └── UserConfig.java                   # JSON 配置模型类
     └── resources/
         ├── bootstrap.yml                         # Bootstrap 上下文配置（Nacos 连接参数）
         └── application.yml                       # 应用配置（本地兜底 + 业务配置）
@@ -100,10 +105,13 @@ appVersion (from @Value): 1.0.0
 
 应用启动完成！
 测试接口：
-  GET  /config/info           - 查看当前配置（@RefreshScope）
-  GET  /config/app-name       - 快速查看 appName
-  GET  /nacos/fetch?dataId=xx - 手动拉取配置
-  POST /nacos/listen?dataId=xx - 注册配置监听器
+  GET  /config/info             - 查看当前配置（@RefreshScope）
+  GET  /config/app-name         - 快速查看 appName
+  GET  /annotation/info         - 查看 @NacosConfig 字段注入值
+  GET  /annotation/listener     - 查看 @NacosConfigListener 变更记录
+  GET  /annotation/compare      - 对比两种注解的当前状态
+  GET  /nacos/fetch?dataId=xx   - 手动拉取配置
+  POST /nacos/listen?dataId=xx  - 注册配置监听器
   POST /nacos/publish?dataId=xx - 发布配置
 ```
 
@@ -310,6 +318,207 @@ CAS 发布失败！MD5 不一致，配置已被他人修改，请重新获取后
 
 ---
 
+### 五、Nacos 声明式注解：@NacosConfig 与 @NacosConfigListener
+
+> `@NacosConfig` 和 `@NacosConfigListener` 是 Spring Cloud Alibaba Nacos Config 提供的声明式注解，
+> 基于**观察者模式**设计，实现配置的**字段级自动注入**与**方法级变更回调**，无需手动调用 `ConfigService` API，
+> 也无需 `@RefreshScope`。
+
+#### 5.0 前置准备：在 Nacos 控制台创建配置
+
+在 Nacos 控制台 (`http://127.0.0.1:8848/nacos`) 创建以下配置（均使用 `DEFAULT_GROUP`）：
+
+| Data ID | 格式 | 配置内容 |
+|---|---|---|
+| `app-settings.properties` | Properties | `app.name=nacos-demo`<br>`app.version=2.0.0`<br>`app.debug=true`<br>`app.max-connections=100` |
+| `scores.json` | JSON | `[95, 88, 76, 92, 100]` |
+| `user-config.json` | JSON | `{"username":"admin","password":"123456","age":25,"email":"admin@example.com","roles":["ROLE_ADMIN","ROLE_USER"],"metadata":{"department":"engineering","level":"senior"}}` |
+| `user-list.json` | JSON | `[{"username":"admin","age":25},{"username":"user1","age":30}]` |
+
+#### 5.1 @NacosConfig — 字段注入（6 种类型）
+
+> 对应 `NacosConfigAnnotationDemo.java`
+
+`@NacosConfig` 将 Nacos 中的配置数据直接注入到 Java 字段，支持**自动类型转换**和 **JSON 反序列化**。
+配置变更时，底层 Processor 自动替换字段引用，不依赖 `@RefreshScope`。
+
+```java
+@Component
+public class NacosConfigAnnotationDemo {
+
+    // 类型一：注入完整配置文本（String）—— 适用场景：透传给第三方 / 自行解析
+    @NacosConfig(dataId = "app-settings.properties", group = "DEFAULT_GROUP")
+    private String configFullContent;
+
+    // 类型二：注入指定 key 的基础类型（boolean）—— 适用场景：开关类配置
+    @NacosConfig(dataId = "app-settings.properties", group = "DEFAULT_GROUP",
+            key = "app.debug", defaultValue = "false")
+    private boolean appDebugEnabled;
+
+    // 类型三：JSON 数组 → int[] —— 适用场景：批量数值配置
+    @NacosConfig(dataId = "scores.json", group = "DEFAULT_GROUP")
+    private int[] scores;
+
+    // 类型四：JSON 对象 → 自定义 JavaBean —— 适用场景：强类型业务对象
+    @NacosConfig(dataId = "user-config.json", group = "DEFAULT_GROUP")
+    private UserConfig userConfig;
+
+    // 类型五：JSON 数组 → List<UserConfig> —— 适用场景：多实体列表
+    @NacosConfig(dataId = "user-list.json", group = "DEFAULT_GROUP")
+    private List<UserConfig> userConfigList;
+
+    // 类型六：Properties 对象 —— 适用场景：遍历所有配置项 / 动态查找 key
+    @NacosConfig(dataId = "app-settings.properties", group = "DEFAULT_GROUP")
+    private Properties appSettings = new Properties();
+}
+```
+
+| 注入类型 | Java 字段类型 | dataId 格式 | 典型场景 |
+|---|---|---|---|
+| 完整文本 | `String` | 任意 | 透传原始内容 |
+| 指定 key | `boolean` / `int` / `long` / `float` / `double` | `.properties` + `key` 属性 | 开关/阈值 |
+| 基础类型数组 | `int[]` / `long[]` / `double[]` | `.json` | 批量数值 |
+| 自定义 Bean | 自定义 POJO | `.json` | 强类型业务对象 |
+| Bean 列表 | `List<Bean>` | `.json` | 白名单/多实体 |
+| Properties | `Properties` | `.properties` / `.yml` | 批量遍历 |
+
+**验证方法：**
+
+```bash
+# 查看 @NacosConfig 字段注入的当前值
+curl http://localhost:8080/annotation/info
+
+# 在 Nacos 控制台修改 user-config.json（如 age: 25 → 30）→ 发布
+# 等待 gRPC 推送（3-10 秒），再次调用接口，确认 userConfig.age 已自动更新
+curl http://localhost:8080/annotation/info
+```
+
+**调用链路：**
+
+```
+应用启动 → NacosConfigAnnotationProcessor 扫描 @NacosConfig 字段
+  → ConfigService.getConfig(dataId, group)  拉取远程配置
+  → 类型转换（String / JSON 反序列化 / Properties 解析）
+  → ReflectionUtils.setField() 注入字段
+
+配置变更：
+  gRPC BiRequestStream 推送 → AbstractConfigChangeListener
+  → 字段引用自动替换 → @PostConstruct 可选二次确认
+```
+
+---
+
+#### 5.2 @NacosConfigListener — 方法监听（6 种参数类型）
+
+> 对应 `NacosConfigListenerDemo.java`
+
+`@NacosConfigListener` 实现**声明式事件监听**：配置变更时，框架自动调用标注的方法，参数自动反序列化，
+是观察者模式的优雅实践。
+
+```java
+@Component
+public class NacosConfigListenerDemo {
+
+    // 类型一：完整配置文本变更（String 参数）—— initNotify=true 启动时立即回调
+    @NacosConfigListener(dataId = "app-settings.properties", group = "DEFAULT_GROUP",
+            initNotify = true)
+    public void onAppSettingsFullContentChanged(String content) { ... }
+
+    // 类型二：指定 key 的基础类型值变更（int 参数）
+    @NacosConfigListener(dataId = "app-settings.properties", group = "DEFAULT_GROUP",
+            key = "app.max-connections")
+    public void onMaxConnectionsChanged(int maxConnections) { ... }
+
+    // 类型三：JSON 数组 → int[] 变更
+    @NacosConfigListener(dataId = "scores.json", group = "DEFAULT_GROUP")
+    public void onScoresChanged(int[] scores) { ... }
+
+    // 类型四：JSON 对象 → UserConfig 变更（强类型回调）
+    @NacosConfigListener(dataId = "user-config.json", group = "DEFAULT_GROUP")
+    public void onUserConfigChanged(UserConfig userConfig) { ... }
+
+    // 类型五：JSON 数组 → List<UserConfig> 变更
+    @NacosConfigListener(dataId = "user-list.json", group = "DEFAULT_GROUP")
+    public void onUserListChanged(List<UserConfig> userList) { ... }
+
+    // 类型六：Properties 对象变更
+    @NacosConfigListener(dataId = "app-settings.properties", group = "DEFAULT_GROUP")
+    public void onPropertiesChanged(Properties properties) { ... }
+}
+```
+
+| 方法参数类型 | dataId 格式 | 反序列化策略 | 典型场景 |
+|---|---|---|---|
+| `String` | 任意 | 直接透传 | 审计日志 / 同步 |
+| `int` / `long` / `boolean`... | `.properties` + `key` | 类型转换 | 阈值精确监听 |
+| `int[]` / `long[]`... | `.json` | JSON 数组反序列化 | 分数线 / ID 集合 |
+| 自定义 Bean | `.json` | Jackson/Gson 反序列化 | 业务对象变更 |
+| `List<Bean>` | `.json` | 泛型列表反序列化 | 白名单变更 |
+| `Properties` | `.properties` / `.yml` | Properties 解析 | 增量对比 |
+
+**验证方法：**
+
+```bash
+# 查看监听器缓存的变更记录（changeCount + latestUserConfig）
+curl http://localhost:8080/annotation/listener
+
+# 在 Nacos 控制台修改 user-config.json → 发布 → 再次调用
+curl http://localhost:8080/annotation/listener
+# changeCount 递增，latestUserConfig 展示新值
+```
+
+**调用链路：**
+
+```
+Nacos 控制台修改配置 → 发布
+  → RpcConfigChangeNotifier.configDataChanged()
+  → gRPC BiRequestStream.onNext(ConfigChangeNotifyRequest)
+  → ConfigRpcTransportClient.handleConfigChangeNotifyRequest()
+  → executeConfigListen() → MD5 校验 → 拉取新配置
+  → NacosConfigListenerWrapper.receiveConfigInfo(newContent)
+    → 根据方法参数类型选择反序列化器
+    → Method.invoke(bean, convertedArgs)
+    → @NacosConfigListener 方法被调用
+```
+
+---
+
+#### 5.3 两种注解对比
+
+```bash
+# 一站式对比 @NacosConfig 和 @NacosConfigListener 的当前状态
+curl http://localhost:8080/annotation/compare
+```
+
+| 对比维度 | @NacosConfig | @NacosConfigListener |
+|---|---|---|
+| 作用目标 | 字段 | 方法 |
+| 注入/激活方式 | 字段引用替换 | 方法回调传参 |
+| 类型支持 | JSON→Bean/List/Map + 基础类型 | 同左 + 基础类型 |
+| 刷新机制 | 内置（不需要 @RefreshScope） | gRPC 推送 → 方法回调 |
+| 框架依赖 | Spring Cloud Alibaba | Spring Cloud Alibaba |
+| 所在 jar | `spring-alibaba-nacos-config` | `spring-alibaba-nacos-config` |
+| 典型场景 | 复杂对象配置注入 | 审计/同步/告警回调 |
+
+**设计模式：观察者模式**
+
+```
+Nacos Server（Subject / 主题）
+  │  user-config.json / scores.json / app-settings.properties
+  │
+  │ gRPC BiRequestStream（双向长连接）
+  │ RpcConfigChangeNotifier.configDataChanged()
+  ▼
+NacosConfigAnnotationProcessor（Observer Manager / 观察者管理器）
+  │
+  ├─ @NacosConfig 字段 ──── Observer（字段引用替换）
+  └─ @NacosConfigListener 方法 ──── Observer（方法回调）
+```
+
+---
+
+
+
 ## 文章源码对照
 
 | 文章章节 | 核心类/方法 | 示例代码对应 | 代码位置 |
@@ -329,6 +538,9 @@ CAS 发布失败！MD5 不一致，配置已被他人修改，请重新获取后
 | §3 Spring 刷新 | `@RefreshScope` → `ContextRefresher.refresh()` | `@RefreshScope` 注解 + RefreshEvent 监听 | `ConfigDemoController.java`, `ConfigChangeMonitor.java` |
 | §4 缓存兜底 | `LocalConfigInfoProcessor.saveSnapshot()` / `getFailover()` | `/nacos/fetch` 中的三级读取策略注释 | `NacosApiController.java` |
 | §4 三级读取策略 | failover → remote gRPC → snapshot | `/nacos/fetch` 接口注释 | `NacosApiController.java` |
+| 声明式注解 — 字段注入 | `@NacosConfig` → NacosConfigAnnotationProcessor | 6 种类型字段注入 | `NacosConfigAnnotationDemo.java` |
+| 声明式注解 — 方法监听 | `@NacosConfigListener` → NacosConfigListenerWrapper | 6 种参数类型回调 | `NacosConfigListenerDemo.java` |
+| 声明式注解 — REST 验证 | GET `/annotation/info` / `/listener` / `/compare` | 注解示例接口 | `AnnotationDemoController.java` |
 
 ---
 
