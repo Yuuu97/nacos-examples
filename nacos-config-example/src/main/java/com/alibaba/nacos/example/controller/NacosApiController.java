@@ -18,46 +18,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Nacos ConfigService API 直接调用演示控制器
  *
- * <p>本控制器不依赖 Spring Cloud 自动装配机制，直接通过 NacosConfigManager 获取
- * ConfigService 实例，手动调用底层 API。对应文章讲解的核心接口和类：</p>
+ * 本控制器不依赖 Spring Cloud 自动装配机制，直接通过 NacosConfigManager 获取
+ * ConfigService 实例，手动调用底层 API。对应文章讲解的核心接口和类：
  *
- * <p><b>对应文章核心机制：</b></p>
- * <table border="1">
- *   <tr><th>接口/方法</th><th>文章对应章节</th><th>核心作用</th></tr>
- *   <tr>
- *     <td>ConfigService.getConfig()</td>
- *     <td>一、客户端启动 → "底层通信入口：ConfigService"</td>
- *     <td>一次性拉取配置（不监听后续变更）</td>
- *   </tr>
- *   <tr>
- *     <td>ConfigService.getConfigAndSignListener()</td>
- *     <td>一 → ConfigService 接口方法</td>
- *     <td>原子性获取配置并注册监听器，避免时序间隙</td>
- *   </tr>
- *   <tr>
- *     <td>ConfigService.addListener()</td>
- *     <td>一 → "监听器的注册入口：NacosContextRefresher"</td>
- *     <td>注册配置变更监听器，底层通过 gRPC 双向流订阅</td>
- *   </tr>
- *   <tr>
- *     <td>ConfigService.publishConfig()</td>
- *     <td>二 → "配置变更的触发入口：ConfigOperationService"</td>
- *     <td>向 Nacos Server 发布配置（普通发布）</td>
- *   </tr>
- *   <tr>
- *     <td>ConfigService.publishConfigCas()</td>
- *     <td>二 → ConfigOperationService CAS 机制</td>
- *     <td>带乐观锁的配置发布（Compare-And-Swap）</td>
- *   </tr>
- *   <tr>
- *     <td>ConfigService.removeConfig()</td>
- *     <td>一 → ConfigService 接口方法</td>
- *     <td>删除 Nacos Server 上的配置</td>
- *   </tr>
- * </table>
+ * 对应文章核心机制：
+ * +-----------------------------------------+--------------------------------------------------------+-----------------------------------+
+ * | 接口/方法                                | 文章对应章节                                            | 核心作用                           |
+ * +-----------------------------------------+--------------------------------------------------------+-----------------------------------+
+ * | ConfigService.getConfig()               | 一、客户端启动 → "底层通信入口：ConfigService"           | 一次性拉取配置（不监听后续变更）     |
+ * | ConfigService.getConfigAndSignListener()| 一 → ConfigService 接口方法                             | 原子性获取配置并注册监听器，避免时序间隙 |
+ * | ConfigService.addListener()             | 一 → "监听器的注册入口：NacosContextRefresher"           | 注册配置变更监听器，底层通过 gRPC 双向流订阅 |
+ * | ConfigService.publishConfig()           | 二 → "配置变更的触发入口：ConfigOperationService"        | 向 Nacos Server 发布配置（普通发布） |
+ * | ConfigService.publishConfigCas()        | 二 → ConfigOperationService CAS 机制                    | 带乐观锁的配置发布（Compare-And-Swap） |
+ * | ConfigService.removeConfig()            | 一 → ConfigService 接口方法                             | 删除 Nacos Server 上的配置         |
+ * +-----------------------------------------+--------------------------------------------------------+-----------------------------------+
  *
- * <p><b>对应源码链路（addListener 为例）：</b></p>
- * <pre>
+ * 对应源码链路（addListener 为例）：
  *   addListener(dataId, group, listener)
  *     → NacosConfigService.addListener()
  *     → ClientWorker.addTenantListeners()
@@ -67,7 +43,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *     → ConfigRpcTransportClient.handleConfigChangeNotifyRequest()
  *     → executeConfigListen() → checkListenCache()
  *     → refreshContentAndCheck() → listener.receiveConfigInfo(newContent)
- * </pre>
  *
  * @author nacos-examples
  */
@@ -82,7 +57,7 @@ public class NacosApiController {
      * 内部维护了 NacosConfigService 实例（ConfigService 的默认实现），
      * 底层通过 gRPC 双向流（BiRequestStream）与 Nacos Server 通信
      *
-     * <p>对应文章 NacosConfigSpringCloudAutoConfiguration 中注入的 NacosConfigManager</p>
+     * 对应文章 NacosConfigSpringCloudAutoConfiguration 中注入的 NacosConfigManager
      */
     @Autowired
     private NacosConfigManager nacosConfigManager;
@@ -108,8 +83,7 @@ public class NacosApiController {
     /**
      * 从 Nacos Server 拉取配置内容（一次性操作）
      *
-     * <p>对应源码链路：</p>
-     * <pre>
+     * 对应源码链路：
      *   ConfigService.getConfig(dataId, group, timeoutMs)
      *     → ClientWorker.getServerConfig()
      *     → ConfigRpcTransportClient.queryConfigInner()
@@ -120,7 +94,6 @@ public class NacosApiController {
      *     → ConfigQueryRequestHandler.handle()
      *     → ConfigCacheService.getContentCache()  // 从内存缓存读取
      *     → ConfigDiskServiceFactory.getContent() // 从磁盘读取内容
-     * </pre>
      *
      * @param dataId 配置 Data ID
      * @param group  配置 Group（默认 DEFAULT_GROUP）
@@ -150,8 +123,7 @@ public class NacosApiController {
     /**
      * 为指定配置注册监听器（底层基于 gRPC 双向流通信推送）
      *
-     * <p>这是 Nacos 动态刷新的核心 API。对应源码链路：</p>
-     * <pre>
+     * 这是 Nacos 动态刷新的核心 API。对应源码链路：
      *   addListener(dataId, group, listener)
      *     |
      *     +-- NacosConfigService.addTenantListenersWithContent()
@@ -174,14 +146,11 @@ public class NacosApiController {
      *     +-- [3分钟全量兜底同步]
      *           → needAllSync=true → 所有缓存强制 MD5 校验
      *           → 防止增量推送信号丢失导致配置长期不一致
-     * </pre>
      *
-     * <p>使用方法：</p>
-     * <ol>
-     *   <li>POST /nacos/listen?dataId=dynamic-config.yml</li>
-     *   <li>在 Nacos 控制台修改 dynamic-config.yml 的配置内容</li>
-     *   <li>观察应用控制台日志：收到推送通知 → MD5 校验 → 拉取新内容 → 回调触发</li>
-     * </ol>
+     * 使用方法：
+     * 1. POST /nacos/listen?dataId=dynamic-config.yml
+     * 2. 在 Nacos 控制台修改 dynamic-config.yml 的配置内容
+     * 3. 观察应用控制台日志：收到推送通知 → MD5 校验 → 拉取新内容 → 回调触发
      *
      * @param dataId 配置 Data ID
      * @param group  配置 Group
@@ -253,11 +222,11 @@ public class NacosApiController {
     /**
      * 使用 getConfigAndSignListener 原子操作获取配置并注册监听器
      *
-     * <p>相比单独的 getConfig() + addListener()，此方法能避免获取配置后、
-     * 注册监听前发生的变更丢失。</p>
+     * 相比单独的 getConfig() + addListener()，此方法能避免获取配置后、
+     * 注册监听前发生的变更丢失。
      *
-     * <p>对应文章 ConfigService 接口中的第二个方法，
-     * 原子性保证：配置获取和监听器注册在同一临界区内完成</p>
+     * 对应文章 ConfigService 接口中的第二个方法，
+     * 原子性保证：配置获取和监听器注册在同一临界区内完成
      */
     @PostMapping("/listen-atomic")
     public String addListenerAtomic(
@@ -295,8 +264,7 @@ public class NacosApiController {
     /**
      * 向 Nacos Server 发布配置（普通发布模式）
      *
-     * <p>对应源码链路：</p>
-     * <pre>
+     * 对应源码链路：
      *   publishConfig(dataId, group, content, type)
      *     → NacosConfigService.publishConfigInner()
      *     → ConfigRpcTransportClient 通过 gRPC 发送 ConfigPublishRequest
@@ -308,7 +276,6 @@ public class NacosApiController {
      *           ├─ DumpService.handleConfigDataChange()     // 本地转储
      *           ├─ AsyncNotifyService.handleConfigDataChange() // 集群同步
      *           └─ RpcConfigChangeNotifier.onEvent()        // gRPC 推送客户端
-     * </pre>
      *
      * @param dataId  配置 Data ID
      * @param group   配置 Group
@@ -338,16 +305,14 @@ public class NacosApiController {
     /**
      * CAS（Compare-And-Swap）乐观锁方式发布配置
      *
-     * <p>对应文章 ConfigOperationService 中 casMd5 的并发控制机制：
-     * 多人同时编辑同一配置时，后提交的人会被告知冲突并拒绝覆盖。</p>
+     * 对应文章 ConfigOperationService 中 casMd5 的并发控制机制：
+     * 多人同时编辑同一配置时，后提交的人会被告知冲突并拒绝覆盖。
      *
-     * <p>操作流程：</p>
-     * <ol>
-     *   <li>先调用 getConfig() 获取当前内容，计算其 MD5 值</li>
-     *   <li>编辑配置内容</li>
-     *   <li>调用 publishConfigCas()，传入编辑前内容的 MD5 作为 casMd5</li>
-     *   <li>服务端比对 MD5：相同则允许更新，不同则拒绝（说明有人抢先改过）</li>
-     * </ol>
+     * 操作流程：
+     * 1. 先调用 getConfig() 获取当前内容，计算其 MD5 值
+     * 2. 编辑配置内容
+     * 3. 调用 publishConfigCas()，传入编辑前内容的 MD5 作为 casMd5
+     * 4. 服务端比对 MD5：相同则允许更新，不同则拒绝（说明有人抢先改过）
      */
     @PostMapping("/publish-cas")
     public String publishConfigCas(

@@ -1,0 +1,40 @@
+# OpenFeign Provider 配置 — 注册到 Nacos 注册中心
+# 技术栈：Spring Boot 3.2.5 + Spring Cloud 2023.0.4 + Nacos Discovery
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: nacos-openfeign-provider-example
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        group: DEFAULT_GROUP
+        username: nacos
+        password: nacos
+        register-enabled: true
+        ephemeral: true
+        weight: 1.0
+        cluster-name: DEFAULT
+        heart-beat-interval: 5000
+        metadata:
+          version: "1.0.0"
+          region: "beijing"
+          description: "用户服务提供者示例"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.alibaba.nacos: DEBUG
+    com.alibaba.cloud.nacos: DEBUG

@@ -7,25 +7,21 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 动态配置属性类 — 演示 @ConfigurationProperties + @RefreshScope 绑定
  *
- * <p>对应文章核心机制：</p>
- * <ul>
- *   <li><b>启动配置拉取：</b>NacosConfigDataLoader.load() → ConfigService.getConfig()
- *       拉取 Nacos Server 上的 dynamic-config.yml，注入 Environment，
- *       其属性值绑定到本类的 name / version / refreshInterval 字段</li>
- *   <li><b>动态刷新：</b>Nacos 控制台修改配置 → gRPC 推送变更通知
- *       → NacosContextRefresher 发布 NacosConfigRefreshEvent
- *       → NacosConfigRefreshEventListener 转换为 RefreshEvent
- *       → @RefreshScope 标注的 Bean 被销毁并基于新配置重建</li>
- * </ul>
+ * 对应文章核心机制：
+ * - 启动配置拉取：NacosConfigDataLoader.load() → ConfigService.getConfig()
+ *   拉取 Nacos Server 上的 dynamic-config.yml，注入 Environment，
+ *   其属性值绑定到本类的 name / version / refreshInterval 字段
+ * - 动态刷新：Nacos 控制台修改配置 → gRPC 推送变更通知
+ *   → NacosContextRefresher 发布 NacosConfigRefreshEvent
+ *   → NacosConfigRefreshEventListener 转换为 RefreshEvent
+ *   → @RefreshScope 标注的 Bean 被销毁并基于新配置重建
  *
- * <p>对应源码链路：</p>
- * <pre>
+ * 对应源码链路：
  *   NacosConfigDataLoader.doLoad()
  *     → NacosPropertySourceRepository.collectNacosPropertySource()
  *     → ConfigData(propertySources) → Environment
  *     → ConfigurationPropertiesBindingPostProcessor.bind()
  *     → 注入到本类字段
- * </pre>
  *
  * @author nacos-examples
  */

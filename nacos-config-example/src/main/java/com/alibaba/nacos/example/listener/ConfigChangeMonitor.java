@@ -16,19 +16,16 @@ import java.time.format.DateTimeFormatter;
 /**
  * 配置变更监控组件 — 演示配置热刷新的完整事件链路
  *
- * <p>对应文章核心机制：</p>
- * <ul>
- *   <li><b>事件监听（三、客户端接收）：</b>
- *       通过 Spring @EventListener 监听 RefreshEvent，
- *       验证 NacosConfigRefreshEventListener 转换事件后触发的刷新流程</li>
- *   <li><b>定时验证（对应文章 SocketRefreshRunner）：</b>
- *       通过 @Scheduled 定时打印当前配置值，直观展示配置变更前后对比</li>
- *   <li><b>@RefreshScope 效果监控：</b>
- *       对比同一配置在 @RefreshScope Bean 和注入时机的差异</li>
- * </ul>
+ * 对应文章核心机制：
+ * - 事件监听（三、客户端接收）：
+ *   通过 Spring @EventListener 监听 RefreshEvent，
+ *   验证 NacosConfigRefreshEventListener 转换事件后触发的刷新流程
+ * - 定时验证（对应文章 SocketRefreshRunner）：
+ *   通过 @Scheduled 定时打印当前配置值，直观展示配置变更前后对比
+ * - @RefreshScope 效果监控：
+ *   对比同一配置在 @RefreshScope Bean 和注入时机的差异
  *
- * <p><b>完整事件链路：</b></p>
- * <pre>
+ * 完整事件链路：
  *   Nacos Server 控制台修改配置
  *     → RpcConfigChangeNotifier 通过 gRPC 双向流推送轻量通知 (dataId+group+tenant)
  *     → GrpcClient.bindRequestStream().onNext() 接收推送
@@ -47,7 +44,6 @@ import java.time.format.DateTimeFormatter;
  *       → Environment 重新加载
  *       → RefreshScope.refreshAll()  // 销毁所有 @RefreshScope Bean
  *       → 下次访问时重建 Bean，获取最新配置值
- *   </pre>
  *
  * @author nacos-examples
  */
@@ -78,20 +74,16 @@ public class ConfigChangeMonitor {
     /**
      * 监听 Spring Cloud 标准 RefreshEvent
      *
-     * <p>此事件由 NacosConfigRefreshEventListener 触发：</p>
-     * <pre>
+     * 此事件由 NacosConfigRefreshEventListener 触发：
      *   NacosConfigRefreshEvent (Nacos 私有)
      *     → NacosConfigRefreshEventListener.onApplicationEvent()
      *     → applicationContext.publishEvent(new RefreshEvent(...))
-     *   </pre>
      *
-     * <p>RefreshEvent 触发后：
-     * <ol>
-     *   <li>ContextRefresher.refresh() 清除 Environment 中的旧属性</li>
-     *   <li>重新加载所有 PropertySource</li>
-     *   <li>RefreshScope.refreshAll() 销毁 @RefreshScope Bean 缓存</li>
-     *   <li>下次请求时重建 Bean，获取新配置值</li>
-     * </ol>
+     * RefreshEvent 触发后：
+     * 1. ContextRefresher.refresh() 清除 Environment 中的旧属性
+     * 2. 重新加载所有 PropertySource
+     * 3. RefreshScope.refreshAll() 销毁 @RefreshScope Bean 缓存
+     * 4. 下次请求时重建 Bean，获取新配置值
      */
     @EventListener
     public void onRefreshEvent(RefreshScopeRefreshedEvent event) {
@@ -112,13 +104,13 @@ public class ConfigChangeMonitor {
     /**
      * 定时打印当前配置值
      *
-     * <p>fixedDelayString 使用 SpEL 表达式从 DynamicConfigProperties 中动态读取间隔：
+     * fixedDelayString 使用 SpEL 表达式从 DynamicConfigProperties 中动态读取间隔：
      * 修改 Nacos 上 dynamic-config.yml 中的 app.refresh-interval 后，
-     * 下一次调度会自动使用新的间隔值</p>
+     * 下一次调度会自动使用新的间隔值
      *
-     * <p>此方法的定时轮询机制，与文章 ConfigRpcTransportClient.startInternal() 中
+     * 此方法的定时轮询机制，与文章 ConfigRpcTransportClient.startInternal() 中
      * 的 listenExecutebell.poll(5L, TimeUnit.SECONDS) 类似，都是通过轮询
-     * 来感知配置变更（只是实现层面不同：一个是阻塞队列驱动的事件循环，一个是定时调度）</p>
+     * 来感知配置变更（只是实现层面不同：一个是阻塞队列驱动的事件循环，一个是定时调度）
      */
     @Scheduled(fixedDelayString = "#{@dynamicConfigProperties.refreshInterval}")
     public void reportCurrentConfig() {

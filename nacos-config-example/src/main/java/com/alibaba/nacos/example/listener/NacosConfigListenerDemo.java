@@ -17,10 +17,9 @@ import java.util.Properties;
 /**
  * {@link NacosConfigListener} 注解方法监听演示 — 观察者模式的最佳实践
  *
- * <p><b>核心设计思想：观察者模式 + 声明式监听 + 类型安全回调</b></p>
+ * 核心设计思想：观察者模式 + 声明式监听 + 类型安全回调
  *
- * <h3>一、观察者模式解耦（Observer Pattern）</h3>
- * <pre>
+ * 一、观察者模式解耦（Observer Pattern）
  *   @NacosConfigListener 将被动轮询升级为事件驱动回调：
  *
  *   ┌───────────────────┐          ┌───────────────────────┐
@@ -37,14 +36,12 @@ import java.util.Properties;
  *                           Changed(User)   Changed(int[]) Changed(String)
  *                           ───────────── Observer 回调方法 ─────────
  *
- *   <b>关键解耦点：</b>
+ *   关键解耦点：
  *   1. 监听方法与配置源解耦 — Nacos Server 地址/协议由框架管理
  *   2. 监听方法与业务逻辑解耦 — 通过回调参数直接拿到最新对象
  *   3. 类型安全 — 框架自动将 JSON/Properties 反序列化为方法参数类型
- * </pre>
  *
- * <h3>二、声明式编程（Declarative）</h3>
- * <pre>
+ * 二、声明式编程（Declarative）
  *   // 传统方式（命令式）：
  *   ConfigService configService = ...;
  *   configService.addListener(dataId, group, new Listener() {
@@ -59,10 +56,8 @@ import java.util.Properties;
  *   public void onUserConfigChanged(UserConfig config) {   // ← 自动反序列化
  *       this.latestUserConfig = config;                    // ← 直接使用强类型对象
  *   }
- * </pre>
  *
- * <h3>三、完整调用链路（断点调试指南）</h3>
- * <pre>
+ * 三、完整调用链路（断点调试指南）
  *   【阶段一：Bean 初始化 — 注册监听器】
  *   NacosConfigListenerDemo 构造
  *     → NacosConfigAnnotationProcessor.postProcessAfterInitialization()
@@ -93,19 +88,19 @@ import java.util.Properties;
  *   initNotify=true 时：
  *     → 在 addListener 注册后立即触发一次回调
  *     → 确保方法在启动时就拿到当前配置值
- * </pre>
  *
- * <h3>四、支持的参数类型一览</h3>
- * <table border="1">
- *   <tr><th>方法参数类型</th><th>dataId 格式要求</th><th>示例配置内容</th></tr>
- *   <tr><td>String</td><td>任意</td><td>原始文本内容</td></tr>
- *   <tr><td>int/long/float/double/boolean</td><td>.properties 且需指定 key</td><td>app.debug=true</td></tr>
- *   <tr><td>int[] / long[] 等</td><td>.json</td><td>[95, 88, 76]</td></tr>
- *   <tr><td>Properties</td><td>.properties / .yml</td><td>a=1\nb=2</td></tr>
- *   <tr><td>自定义 Bean</td><td>.json</td><td>{"username":"admin"}</td></tr>
- *   <tr><td>List&lt;自定义Bean&gt;</td><td>.json</td><td>[{"username":"a"},{"username":"b"}]</td></tr>
- *   <tr><td>Map&lt;K,自定义Bean&gt;</td><td>.json</td><td>{"k1":{"name":"a"},"k2":{"name":"b"}}</td></tr>
- * </table>
+ * 四、支持的参数类型一览
+ * +----------------------------+----------------------------+----------------------------------+
+ * | 方法参数类型                | dataId 格式要求            | 示例配置内容                      |
+ * +----------------------------+----------------------------+----------------------------------+
+ * | String                     | 任意                       | 原始文本内容                      |
+ * | int/long/float/double/boolean| .properties 且需指定 key | app.debug=true                   |
+ * | int[] / long[] 等          | .json                      | [95, 88, 76]                     |
+ * | Properties                 | .properties / .yml         | a=1\nb=2                         |
+ * | 自定义 Bean                | .json                      | {"username":"admin"}             |
+ * | List<自定义Bean>           | .json                      | [{"username":"a"},{"username":"b"}]|
+ * | Map<K,自定义Bean>          | .json                      | {"k1":{"name":"a"},"k2":{"name":"b"}}|
+ * +----------------------------+----------------------------+----------------------------------+
  *
  * @author nacos-examples
  */

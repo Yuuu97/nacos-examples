@@ -1,6 +1,10 @@
 # Nacos 配置中心示例
 
-> 配套文章：[《Nacos 2.x源码深度解析 (二)：配置中心——gRPC长连接推送与动态刷新源码分析》](第二篇：Naocs配置中心——通信推送与动态刷新源码分析.md)
+> 配套文章：
+>
+> [《Nacos 2.x 源码深度解析 (一)：架构整体全貌 —— 核心模块划分与版本演进》](https://blog.csdn.net/Yuu_9977/article/details/161167369?spm=1001.2014.3001.5502 "Nacos 2.x 源码深度解析 (一)：架构整体全貌 —— 核心模块划分与版本演进")
+>
+> [《Nacos 2.x 源码深度解析 (二)：通信协议迭代 —— HTTP长轮询到gRPC演进》](https://blog.csdn.net/Yuu_9977/article/details/161397929?spm=1001.2014.3001.5502 "Nacos 2.x 源码深度解析 (二)：通信协议迭代 —— HTTP长轮询到gRPC演进")
 
 本项目通过 Spring Boot 3.2.5 + Spring Cloud 2023.0.4 + Nacos 2.x 构建，完整演示 Nacos 配置中心的三大核心机制：**配置获取**、**gRPC 通信推送**与**动态配置刷新**。
 

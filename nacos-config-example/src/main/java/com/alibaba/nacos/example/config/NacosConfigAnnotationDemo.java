@@ -14,19 +14,16 @@ import java.util.Properties;
 /**
  * {@link NacosConfig} 注解字段注入演示 — 覆盖六种注入类型
  *
- * <p><b>核心设计思想：配置驱动 + 依赖注入 + 观察者模式</b></p>
+ * 核心设计思想：配置驱动 + 依赖注入 + 观察者模式
  *
- * <h3>一、配置驱动（Configuration-Driven）</h3>
- * <pre>
+ * 一、配置驱动（Configuration-Driven）
  *   传统方式：@Value("${key}")        → 仅支持字符串，需手动转换类型，需 @RefreshScope
  *   注解方式：@NacosConfig(dataId=..) → 自动类型转换 + JSON反序列化，无需 @RefreshScope
  *
  *   配置驱动意味着：应用行为由 Nacos 中的配置数据驱动，
  *   而非硬编码在 Java 源码中。修改配置即修改行为，零停机。
- * </pre>
  *
- * <h3>二、观察者模式（Observer Pattern）解耦</h3>
- * <pre>
+ * 二、观察者模式（Observer Pattern）解耦
  *               ┌──────────────────────────────────┐
  *               │  Nacos Server（主题 / Subject）    │
  *               │  - user-config.json              │
@@ -47,14 +44,12 @@ import java.util.Properties;
  *   (String)         (boolean)      (UserConfig)
  *   ───────────────── 观察者（Observers）─────────────
  *
- *   <b>解耦机制：</b>
+ *   解耦机制：
  *   1. 观察者（@NacosConfig 字段）与主题（Nacos Server）完全解耦
  *   2. 字段所属的 Bean 无需实现任何接口或继承任何类
  *   3. 配置变更通过 gRPC 推送自动传播，无需手动轮询
- * </pre>
  *
- * <h3>三、完整调用链路（断点调试指南）</h3>
- * <pre>
+ * 三、完整调用链路（断点调试指南）
  *   【阶段一：启动加载】
  *   ApplicationRunner / @PostConstruct
  *     → NacosConfigAnnotationProcessor.postProcessAfterInitialization()
@@ -78,7 +73,6 @@ import java.util.Properties;
  *     → executeConfigListen() → checkListenCache() → MD5 校验
  *     → refreshContentAndCheck() → listener.receiveConfigInfo(content) ← 断点⑤：最新配置内容
  *     → NacosConfigAnnotationProcessor 触发字段刷新 ← 断点⑥：观察字段新值
- * </pre>
  *
  * @author nacos-examples
  */
@@ -177,15 +171,13 @@ public class NacosConfigAnnotationDemo {
     // ================================================================
     
     /**
-     * 打印所有 @NacosConfig 注入的当前值。 配置变更后，这些字段引用的对象会被替换，再次调用本方法可观察到新值。
+     * 打印所有 @NacosConfig 注入的当前值。配置变更后，这些字段引用的对象会被替换，再次调用本方法可观察到新值。
      *
-     * <p>验证方法：
-     * <ol>
-     *   <li>启动应用 → 观察启动日志中的初始配置值</li>
-     *   <li>在 Nacos 控制台修改 user-config.json（如 age: 25 → 30）</li>
-     *   <li>等待 gRPC 推送通知到达（通常 3-10 秒）</li>
-     *   <li>调用 GET /annotation/info → 确认 userConfig.age 已更新为 30</li>
-     * </ol>
+     * 验证方法：
+     * 1. 启动应用 → 观察启动日志中的初始配置值
+     * 2. 在 Nacos 控制台修改 user-config.json（如 age: 25 → 30）
+     * 3. 等待 gRPC 推送通知到达（通常 3-10 秒）
+     * 4. 调用 GET /annotation/info → 确认 userConfig.age 已更新为 30
      */
     public void printAllConfigs() {
         log.info("┌─────────────────────────────────────────────────────────────┐");

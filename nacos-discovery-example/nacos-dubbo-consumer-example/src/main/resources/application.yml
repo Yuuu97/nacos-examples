@@ -1,0 +1,50 @@
+# Dubbo Consumer 配置 — 从 Nacos 发现 Provider，通过 Dubbo RPC 远程调用
+# 技术栈：Spring Boot 3.2.5 + Dubbo 3.3.0 + JDK 17
+
+server:
+  port: 8084
+
+spring:
+  application:
+    name: dubbo-consumer-example
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+    logger: slf4j
+    register-mode: instance
+    qos-enable: false
+  protocol:
+    name: tri
+    port: -1
+    serialization: fastjson2
+    host: 127.0.0.1
+  registry:
+    address: nacos://127.0.0.1:8848
+    parameters:
+      namespace: public
+      group: DEFAULT_GROUP
+      username: nacos
+      password: nacos
+  metadata-report:
+    address: nacos://127.0.0.1:8848
+    parameters:
+      namespace: public
+      group: DEFAULT_GROUP
+      username: nacos
+      password: nacos
+    timeout: 5000
+    retry-times: 3
+  consumer:
+    version: 1.0.0
+    group: DEFAULT_GROUP
+    timeout: 5000
+    retries: 0
+    check: false
+    loadbalance: roundrobin
+
+logging:
+  level:
+    com.alibaba.nacos.example: DEBUG
+    org.apache.dubbo: INFO
+    com.alibaba.nacos.client: INFO

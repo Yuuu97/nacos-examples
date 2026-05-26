@@ -1,0 +1,38 @@
+# OpenFeign Consumer 配置 — 通过 Nacos 发现 Provider，使用 Feign + LoadBalancer 进行服务调用
+# 技术栈：Spring Boot 3.2.5 + Spring Cloud 2023.0.4 + Nacos Discovery + OpenFeign + LoadBalancer
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: nacos-openfeign-consumer-example
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        username: nacos
+        password: nacos
+        group: DEFAULT_GROUP
+        watch:
+          enabled: true
+    loadbalancer:
+      nacos:
+        enabled: true
+      cache:
+        enabled: true
+        ttl: 35s
+        capacity: 256
+      retry:
+        enabled: true
+        retry-on-all-operations: false
+        max-retries-on-same-service-instance: 1
+        max-retries-on-next-service-instance: 1
+
+logging:
+  level:
+    com.alibaba.nacos: INFO
+    com.alibaba.cloud.nacos: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG
+    com.alibaba.nacos.example: DEBUG

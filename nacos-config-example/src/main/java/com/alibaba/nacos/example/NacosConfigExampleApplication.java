@@ -9,36 +9,29 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * Nacos 配置中心示例 —— 主启动类
  *
- * <p>对应文章：<b>第一篇——Nacos 配置中心：通信推送与动态刷新源码分析</b></p>
+ * 启动流程（对应文章一、客户端启动章节）：
+ * 1. Bootstrap 引导上下文：
+ *    spring-cloud-starter-bootstrap 依赖触发 BootstrapApplicationListener，
+ *    创建 BootstrapContext 父上下文，优先加载 bootstrap.yml 中的
+ *    Nacos Server 连接参数（server-addr、namespace、认证信息）
+ * 2. 自动装配入口：
+ *    @SpringBootApplication 中的 @EnableAutoConfiguration 触发自动配置：
+ *    - NacosConfigAutoConfiguration → 初始化 NacosConfigManager、
+ *      NacosContextRefresher（监听器注册入口）
+ *    - NacosConfigSpringCloudAutoConfiguration → 注册
+ *      NacosConfigRefreshEventListener（Nacos 事件 → Spring Cloud 事件）
+ * 3. 配置拉取：
+ *    NacosConfigDataLocationResolver 解析 spring.config.import 中的 nacos: 前缀
+ *    → NacosConfigDataLoader.doLoad() 通过 ConfigService.getConfig()
+ *    拉取远程配置 → 封装为 NacosPropertySource → 注入 Environment
+ * 4. 监听订阅：
+ *    容器就绪后，NacosContextRefresher.registerNacosListenersForApplications()
+ *    遍历所有 NacosPropertySource → registerNacosListener(…) 为每个配置
+ *    通过 gRPC 双向流注册监听器 → 准备接收服务端推送
  *
- * <p><b>启动流程（对应文章一、客户端启动章节）：</b></p>
- * <ol>
- *   <li><b>Bootstrap 引导上下文：</b>
- *       spring-cloud-starter-bootstrap 依赖触发 BootstrapApplicationListener，
- *       创建 BootstrapContext 父上下文，优先加载 bootstrap.yml 中的
- *       Nacos Server 连接参数（server-addr、namespace、认证信息）</li>
- *   <li><b>自动装配入口：</b>
- *       @SpringBootApplication 中的 @EnableAutoConfiguration 触发自动配置：
- *       <ul>
- *         <li>NacosConfigAutoConfiguration → 初始化 NacosConfigManager、
- *             NacosContextRefresher（监听器注册入口）</li>
- *         <li>NacosConfigSpringCloudAutoConfiguration → 注册
- *             NacosConfigRefreshEventListener（Nacos 事件 → Spring Cloud 事件）</li>
- *       </ul>
- *   </li>
- *   <li><b>配置拉取：</b>
- *       NacosConfigDataLocationResolver 解析 spring.config.import 中的 nacos: 前缀
- *       → NacosConfigDataLoader.doLoad() 通过 ConfigService.getConfig()
- *         拉取远程配置 → 封装为 NacosPropertySource → 注入 Environment</li>
- *   <li><b>监听订阅：</b>
- *       容器就绪后，NacosContextRefresher.registerNacosListenersForApplications()
- *       遍历所有 NacosPropertySource → registerNacosListener(…) 为每个配置
- *       通过 gRPC 双向流注册监听器 → 准备接收服务端推送</li>
- * </ol>
- *
- * <p><b>@EnableScheduling 的作用：</b>
+ * @EnableScheduling 的作用：
  * 启用 Spring 定时任务调度，配合 ConfigChangeMonitor 中的 @Scheduled 方法，
- * 定时打印当前配置值，直观展示配置变更前后的对比效果</p>
+ * 定时打印当前配置值，直观展示配置变更前后的对比效果
  *
  * @author nacos-examples
  */

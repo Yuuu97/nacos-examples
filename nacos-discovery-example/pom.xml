@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.alibaba.nacos</groupId>
+        <artifactId>nacos-examples</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>nacos-discovery-example</artifactId>
+    <packaging>pom</packaging>
+    <name>nacos-discovery-example</name>
+    <description>Nacos 服务注册与发现示例集合 — 包含 OpenFeign 和 Dubbo 两种 RPC 框架的实现</description>
+
+    <modules>
+        <module>nacos-openfeign-api</module>
+        <module>nacos-openfeign-provider-example</module>
+        <module>nacos-openfeign-consumer-example</module>
+        <module>nacos-dubbo-api</module>
+        <module>nacos-dubbo-provider-example</module>
+        <module>nacos-dubbo-consumer-example</module>
+    </modules>
+
+</project>

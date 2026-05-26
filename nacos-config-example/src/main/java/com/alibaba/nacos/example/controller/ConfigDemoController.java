@@ -18,19 +18,16 @@ import java.util.Map;
 /**
  * 配置演示控制器 — 展示 @RefreshScope 动态刷新效果
  *
- * <p>对应文章核心机制：</p>
- * <ul>
- *   <li><b>配置获取（一、客户端启动）：</b>
- *       应用启动时，NacosConfigDataLoader 从 Nacos Server 拉取配置并注入 Environment；
- *       本控制器中 @Value 注入的 app.name、app.version 即为拉取到的远程配置值</li>
- *   <li><b>动态刷新（三、客户端接收）：</b>
- *       Nacos 控制台修改配置 → gRPC 推送 → NacosConfigRefreshEvent
- *       → NacosConfigRefreshEventListener 转换 → RefreshEvent → @RefreshScope 重建 Bean
- *       → 本控制器中的 appName / appVersion 自动更新为新值</li>
- * </ul>
+ * 对应文章核心机制：
+ * - 配置获取（一、客户端启动）：
+ *   应用启动时，NacosConfigDataLoader 从 Nacos Server 拉取配置并注入 Environment；
+ *   本控制器中 @Value 注入的 app.name、app.version 即为拉取到的远程配置值
+ * - 动态刷新（三、客户端接收）：
+ *   Nacos 控制台修改配置 → gRPC 推送 → NacosConfigRefreshEvent
+ *   → NacosConfigRefreshEventListener 转换 → RefreshEvent → @RefreshScope 重建 Bean
+ *   → 本控制器中的 appName / appVersion 自动更新为新值
  *
- * <p>对应源码链路：</p>
- * <pre>
+ * 对应源码链路：
  *   RpcConfigChangeNotifier.configDataChanged()  // 服务端推送
  *     → GrpcClient.bindRequestStream().onNext()  // 客户端 gRPC 双向流接收
  *     → ConfigRpcTransportClient.handleConfigChangeNotifyRequest()  // 标记缓存失效
@@ -39,7 +36,6 @@ import java.util.Map;
  *     → NacosContextRefresher.innerReceive() → NacosConfigRefreshEvent
  *     → NacosConfigRefreshEventListener.onApplicationEvent() → RefreshEvent
  *     → @RefreshScope Bean 重建 → 新配置生效
- * </pre>
  *
  * @author nacos-examples
  */
@@ -92,17 +88,15 @@ public class ConfigDemoController {
     /**
      * 查看当前生效的完整配置信息
      *
-     * <p>调用此接口可以对比 @Value 注入和 @ConfigurationProperties 绑定两种方式的配置值。
-     * 在 Nacos 控制台修改配置后再次调用，可验证 @RefreshScope 动态刷新效果。</p>
+     * 调用此接口可以对比 @Value 注入和 @ConfigurationProperties 绑定两种方式的配置值。
+     * 在 Nacos 控制台修改配置后再次调用，可验证 @RefreshScope 动态刷新效果。
      *
-     * <p>实际操作中，配置通过以下路径生效：</p>
-     * <pre>
+     * 实际操作中，配置通过以下路径生效：
      *   Nacos 控制台发布 → RpcConfigChangeNotifier 推送
      *     → ConfigRpcTransportClient 处理 → executeConfigListen()
      *     → NacosContextRefresher 发布事件 → RefreshEvent
      *     → ContextRefresher.refresh() → Environment 重新加载
      *     → @RefreshScope Bean 销毁重建 → @Value 和 @ConfigurationProperties 获取新值
-     * </pre>
      *
      * @return 包含所有配置信息的 Map
      */
