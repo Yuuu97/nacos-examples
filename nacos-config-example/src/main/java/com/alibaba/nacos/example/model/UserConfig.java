@@ -37,7 +37,7 @@ import java.io.Serializable;
  * - Observer（观察者）：标注了 @NacosConfig 的字段 + @NacosConfigListener 方法
  * - 通知机制：gRPC BiRequestStream 双向流 → handleConfigChange → 批量 MD5 校验 → 字段注入
  *
- * @author nacos-examples
+ * @author qinyu
  */
 public class UserConfig implements Serializable {
 

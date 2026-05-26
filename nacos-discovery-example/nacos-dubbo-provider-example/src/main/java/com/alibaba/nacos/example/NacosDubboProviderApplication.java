@@ -14,6 +14,7 @@ import java.net.InetAddress;
  * <p>在 macOS 多网卡环境下（如 VirtualBox vboxnet0），通过反射强制设置
  * {@code NetUtils} 静态缓存，避免 Dubbo 日志中的 current host 误报为虚拟网卡 IP。
  * 同时忽略 VirtualBox/Docker/Parallels 等虚拟网卡接口。
+  * @author qinyu
  */
 @EnableDubbo
 @SpringBootApplication

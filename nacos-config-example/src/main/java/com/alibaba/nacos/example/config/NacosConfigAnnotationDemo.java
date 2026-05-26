@@ -74,7 +74,7 @@ import java.util.Properties;
  *     → refreshContentAndCheck() → listener.receiveConfigInfo(content) ← 断点⑤：最新配置内容
  *     → NacosConfigAnnotationProcessor 触发字段刷新 ← 断点⑥：观察字段新值
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @Component
 public class NacosConfigAnnotationDemo {

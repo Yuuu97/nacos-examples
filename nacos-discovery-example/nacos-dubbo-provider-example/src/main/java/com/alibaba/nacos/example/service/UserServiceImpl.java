@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * UserService 的 Dubbo 实现，通过 {@code @DubboService} 暴露为 Dubbo RPC 端点并注册到 Nacos。
+  * @author qinyu
  */
 @DubboService(version = "1.0.0", group = "DEFAULT_GROUP", interfaceClass = UserService.class)
 public class UserServiceImpl implements UserService {

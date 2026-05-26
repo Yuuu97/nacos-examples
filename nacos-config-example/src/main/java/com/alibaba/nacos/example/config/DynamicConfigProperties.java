@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
  *     → ConfigurationPropertiesBindingPostProcessor.bind()
  *     → 注入到本类字段
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @Configuration
 @ConfigurationProperties(prefix = "app")

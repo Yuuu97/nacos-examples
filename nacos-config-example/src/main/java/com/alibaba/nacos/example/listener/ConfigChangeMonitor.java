@@ -45,7 +45,7 @@ import java.time.format.DateTimeFormatter;
  *       → RefreshScope.refreshAll()  // 销毁所有 @RefreshScope Bean
  *       → 下次访问时重建 Bean，获取最新配置值
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @Component
 public class ConfigChangeMonitor {

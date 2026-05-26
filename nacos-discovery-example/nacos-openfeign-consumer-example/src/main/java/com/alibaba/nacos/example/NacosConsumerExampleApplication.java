@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
  * {@code @EnableFeignClients} 扫描 {@code @FeignClient} 接口生成动态代理，
  * {@code @LoadBalanced} 为 RestTemplate 注入负载均衡拦截器，
  * Nacos Discovery 自动从注册中心拉取 Provider 实例列表。
+  * @author qinyu
  */
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.alibaba.nacos.example.remote")

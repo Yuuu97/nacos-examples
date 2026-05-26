@@ -4,6 +4,7 @@ import java.util.Map;
 
 /**
  * Dubbo 服务接口。Provider 实现此接口并注册到 Nacos，Consumer 通过 Dubbo 协议远程调用。
+  * @author qinyu
  */
 public interface UserService {
 

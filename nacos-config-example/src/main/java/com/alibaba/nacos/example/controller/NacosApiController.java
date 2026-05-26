@@ -44,7 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *     → executeConfigListen() → checkListenCache()
  *     → refreshContentAndCheck() → listener.receiveConfigInfo(newContent)
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @RestController
 @RequestMapping("/nacos")

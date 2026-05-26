@@ -37,7 +37,7 @@ import java.util.Map;
  *     → NacosConfigRefreshEventListener.onApplicationEvent() → RefreshEvent
  *     → @RefreshScope Bean 重建 → 新配置生效
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @RestController
 @RequestMapping("/config")

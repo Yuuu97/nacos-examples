@@ -19,6 +19,7 @@ import java.util.Map;
 /**
  * 消费者 REST 控制器，演示 Feign 声明式调用和 RestTemplate 两种服务调用方式。
  * LoadBalancer 自动从 Nacos 获取健康实例列表，根据权重选择最优实例。
+  * @author qinyu
  */
 @RestController
 @RequestMapping("/api")

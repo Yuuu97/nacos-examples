@@ -16,6 +16,7 @@ import java.util.Map;
 /**
  * Dubbo 消费者 REST 控制器，通过 {@code @DubboReference} 注入远程 Dubbo 服务代理发起 RPC 调用。
  * {@code version} 和 {@code group} 必须与 Provider 端的 {@code @DubboService} 保持一致。
+  * @author qinyu
  */
 @RestController
 @RequestMapping("/api")

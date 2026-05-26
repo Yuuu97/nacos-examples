@@ -19,6 +19,7 @@ import java.util.Map;
 /**
  * 用户服务 REST 控制器。
  * 启动时通过 Nacos Discovery 自动注册到 Nacos，并通过 BeatReactor 每 5 秒发送心跳保活。
+  * @author qinyu
  */
 @RestController
 @RequestMapping("/user")

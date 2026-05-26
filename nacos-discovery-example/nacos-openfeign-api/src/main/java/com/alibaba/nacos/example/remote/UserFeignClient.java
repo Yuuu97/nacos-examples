@@ -11,6 +11,7 @@ import java.util.Map;
  * Feign 声明式服务调用客户端。
  * {@code name} 对应 Provider 的 {@code spring.application.name}，作为 Nacos 服务发现的 serviceId。
  * Feign 通过 Nacos DiscoveryClient 获取 Provider 实例列表，配合 LoadBalancer 选择实例后发起 HTTP 调用。
+  * @author qinyu
  */
 @FeignClient(name = "nacos-openfeign-provider-example", path = "/user")
 public interface UserFeignClient {

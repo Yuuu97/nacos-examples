@@ -29,7 +29,7 @@ import java.util.Map;
  * 4. GET /annotation/listener → 查看 @NacosConfigListener 缓存的变更记录
  * 5. GET /annotation/compare → 对比两种注解的工作状态
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @RestController
 @RequestMapping("/annotation")

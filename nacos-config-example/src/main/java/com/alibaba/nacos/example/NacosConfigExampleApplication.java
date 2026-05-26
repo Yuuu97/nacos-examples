@@ -33,7 +33,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * 启用 Spring 定时任务调度，配合 ConfigChangeMonitor 中的 @Scheduled 方法，
  * 定时打印当前配置值，直观展示配置变更前后的对比效果
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @SpringBootApplication
 @EnableScheduling

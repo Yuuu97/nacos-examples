@@ -102,7 +102,7 @@ import java.util.Properties;
  * | Map<K,自定义Bean>          | .json                      | {"k1":{"name":"a"},"k2":{"name":"b"}}|
  * +----------------------------+----------------------------+----------------------------------+
  *
- * @author nacos-examples
+ * @author qinyu
  */
 @Component
 public class NacosConfigListenerDemo {

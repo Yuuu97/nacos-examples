@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Dubbo RPC 传输的 User 实体，实现 Serializable 以支持跨进程传输。
+  * @author qinyu
  */
 public class User implements Serializable {
 
