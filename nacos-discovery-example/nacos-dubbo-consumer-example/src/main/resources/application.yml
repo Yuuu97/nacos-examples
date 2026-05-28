@@ -1,5 +1,5 @@
-# Dubbo Consumer 配置 — 从 Nacos 发现 Provider，通过 Dubbo RPC 远程调用
-# 技术栈：Spring Boot 3.2.5 + Dubbo 3.3.0 + JDK 17
+# Dubbo Consumer 配置 — 以 Spring Cloud 为服务治理核心，Dubbo 3.3.0 作为 RPC 通信框架
+# 技术栈：Spring Boot 3.2.5 + Spring Cloud 2023.0.4 + Spring Cloud Alibaba 2023.0.3.4 + Dubbo 3.3.0 + JDK 17
 
 server:
   port: 8084
@@ -7,12 +7,23 @@ server:
 spring:
   application:
     name: dubbo-consumer-example
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        group: DEFAULT_GROUP
+        username: nacos
+        password: nacos
+        enabled: true
 
 dubbo:
   application:
     name: ${spring.application.name}
     logger: slf4j
-    register-mode: instance
+    # register-mode: all — Consumer 也注册实例，便于 Spring Cloud 服务列表可见
+    # qos-enable: false — 关闭 Dubbo QoS 端口，避免与 Spring Boot 端口冲突
+    register-mode: all
     qos-enable: false
   protocol:
     name: tri

@@ -1,5 +1,5 @@
-# Dubbo Provider 配置 — 注册服务到 Nacos，通过 Dubbo 协议暴露 RPC 端点
-# 技术栈：Spring Boot 3.2.5 + Dubbo 3.3.0 + JDK 17
+# Dubbo Provider 配置 — 以 Spring Cloud 为服务治理核心，Dubbo 3.3.0 作为 RPC 通信框架
+# 技术栈：Spring Boot 3.2.5 + Spring Cloud 2023.0.4 + Spring Cloud Alibaba 2023.0.3.4 + Dubbo 3.3.0 + JDK 17
 
 server:
   port: 8083
@@ -7,11 +7,23 @@ server:
 spring:
   application:
     name: dubbo-provider-example
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        group: DEFAULT_GROUP
+        username: nacos
+        password: nacos
+        enabled: true
 
 dubbo:
   application:
     name: ${spring.application.name}
     logger: slf4j
+    # register-mode: all — Dubbo 同时注册到 Spring Cloud 和 Dubbo 注册中心
+    # Dubbo 服务实例以 Spring Cloud 服务发现格式写入 Nacos，实现双重注册
+    register-mode: all
   protocol:
     name: tri
     port: 20880

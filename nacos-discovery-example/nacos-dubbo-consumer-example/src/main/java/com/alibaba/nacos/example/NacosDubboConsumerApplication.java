@@ -4,6 +4,7 @@ import org.apache.dubbo.common.utils.NetUtils;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import java.lang.reflect.Field;
 import java.net.InetAddress;
@@ -11,11 +12,17 @@ import java.net.InetAddress;
 /**
  * Dubbo 服务消费者启动类。
  *
+ * <p>以 Spring Cloud 为服务治理核心，Dubbo 3.3.0 作为 RPC 通信框架。
+ * 通过 {@code @EnableDiscoveryClient} 启用 Spring Cloud 服务发现，
+ * 与 {@code @EnableDubbo} 配合实现 Dubbo 与 Spring Cloud 的双重注册。
+ *
  * <p>在 macOS 多网卡环境下（如 VirtualBox vboxnet0），通过反射强制设置
  * {@code NetUtils} 静态缓存，避免 Dubbo 日志中的 current host 误报为虚拟网卡 IP。
-  * @author qinyu
+ *
+ * @author qinyu
  */
 @EnableDubbo
+@EnableDiscoveryClient
 @SpringBootApplication
 public class NacosDubboConsumerApplication {
 

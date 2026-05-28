@@ -21,6 +21,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- Spring Cloud 服务治理核心 — Nacos 注册与发现（版本由 spring-cloud-alibaba-dependencies BOM 管控） -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- Dubbo RPC 框架（版本由父 pom dependencyManagement 统一管控） -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
@@ -29,19 +36,16 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>${protobuf-java.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-registry-nacos</artifactId>
-            <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-serialization-fastjson2</artifactId>
-            <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
