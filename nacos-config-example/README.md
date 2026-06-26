@@ -2,9 +2,17 @@
 
 > 配套文章：
 >
-> [《Nacos 2.x 源码深度解析 (一)：架构整体全貌 —— 核心模块划分与版本演进》](https://blog.csdn.net/Yuu_9977/article/details/161167369?spm=1001.2014.3001.5502 "Nacos 2.x 源码深度解析 (一)：架构整体全貌 —— 核心模块划分与版本演进")
+> [《Nacos 2.x 源码深度解析 (一)：架构整体全貌 —— 核心模块划分与版本演进》](https://blog.csdn.net/Yuu_9977/article/details/161167369?spm=1001.2014.3001.5502)
 >
-> [《Nacos 2.x 源码深度解析 (二)：通信协议迭代 —— HTTP长轮询到gRPC演进》](https://blog.csdn.net/Yuu_9977/article/details/161397929?spm=1001.2014.3001.5502 "Nacos 2.x 源码深度解析 (二)：通信协议迭代 —— HTTP长轮询到gRPC演进")
+> [《Nacos 2.x 源码深度解析 (二)：通信协议迭代 —— HTTP长轮询到gRPC演进》](https://blog.csdn.net/Yuu_9977/article/details/161397929?spm=1001.2014.3001.5502)
+>
+> [《Nacos 2.x 源码深度解析 (三)：配置中心客户端 —— 启动加载与自动装配》](https://blog.csdn.net/Yuu_9977/article/details/161373008?spm=1001.2014.3001.5502)
+>
+> [《Nacos 2.x 源码深度解析 (四)：配置中心服务端 —— 事件总线与数据持久化》](https://blog.csdn.net/Yuu_9977/article/details/161400534?spm=1001.2014.3001.5501)
+>
+> [《Nacos 2.x 源码深度解析 (五)：gRPC 推送链路 —— 配置变更下发与动态刷新》](https://blog.csdn.net/Yuu_9977/article/details/161401011?spm=1001.2014.3001.5501)
+>
+> [《Nacos 2.x 源码深度解析 (六)：三级缓存体系 —— 降级兜底与故障自愈机制》](https://blog.csdn.net/Yuu_9977/article/details/161401280?spm=1001.2014.3001.5502)
 
 本项目通过 Spring Boot 3.2.5 + Spring Cloud 2023.0.4 + Nacos 2.x 构建，完整演示 Nacos 配置中心的三大核心机制：**配置获取**、**gRPC 通信推送**与**动态配置刷新**。
 
@@ -45,6 +53,12 @@ nacos-config-example/
     │   │   └── NacosConfigListenerDemo.java      # @NacosConfigListener 方法监听演示（6 种参数类型）
     │   └── model/
     │       └── UserConfig.java                   # JSON 配置模型类
+    │   ├── config/
+    │   │   └── LocalConfigSnapshotDemo.java        # 三级缓存与本地快照演示（文章六）
+    │   ├── controller/
+    │   │   └── NacosApiAdvancedController.java      # 高级 API（三级缓存、gRPC 推送、CAS）
+    │   └── listener/
+    │       └── GrpcPushReceiveDemo.java             # gRPC 推送接收演示（文章五）
     └── resources/
         ├── bootstrap.yml                         # Bootstrap 上下文配置（Nacos 连接参数）
         └── application.yml                       # 应用配置（本地兜底 + 业务配置）
@@ -545,6 +559,10 @@ NacosConfigAnnotationProcessor（Observer Manager / 观察者管理器）
 | 声明式注解 — 字段注入 | `@NacosConfig` → NacosConfigAnnotationProcessor | 6 种类型字段注入 | `NacosConfigAnnotationDemo.java` |
 | 声明式注解 — 方法监听 | `@NacosConfigListener` → NacosConfigListenerWrapper | 6 种参数类型回调 | `NacosConfigListenerDemo.java` |
 | 声明式注解 — REST 验证 | GET `/annotation/info` / `/listener` / `/compare` | 注解示例接口 | `AnnotationDemoController.java` |
+| (四) 事件总线与持久化 | `ConfigOperationService.publishConfig()` | `/nacos/publish-advanced` | `NacosApiAdvancedController.java` |
+| (五) gRPC 推送链路 | `RpcConfigChangeNotifier.configDataChanged()` | 注册监听器 | `GrpcPushReceiveDemo.java` |
+| (五) 推送接收链路 | `GrpcClient.bindRequestStream()` → `handleConfigChangeNotifyRequest()` | `/nacos/push-stats` | `GrpcPushReceiveDemo.java` |
+| (六) 三级缓存策略 | `LocalConfigInfoProcessor.saveSnapshot()` / `getFailover()` | `/nacos/cascade-fetch` | `LocalConfigSnapshotDemo.java`, `NacosApiAdvancedController.java` |
 
 ---
 

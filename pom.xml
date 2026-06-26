@@ -18,6 +18,8 @@
     <modules>
         <module>nacos-config-example</module>
         <module>nacos-discovery-example</module>
+        <module>nacos-grpc-connection-example</module>
+        <module>nacos-cluster-consistency-example</module>
     </modules>
     
     <properties>
@@ -26,6 +28,7 @@
         <spring-cloud-alibaba.version>2023.0.3.4</spring-cloud-alibaba.version>
         <dubbo.version>3.3.0</dubbo.version>
         <protobuf-java.version>3.25.5</protobuf-java.version>
+        <nacos.version>2.4.3</nacos.version>
     </properties>
     
     <dependencyManagement>
@@ -66,6 +69,18 @@
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-serialization-fastjson2</artifactId>
                 <version>${dubbo.version}</version>
+            </dependency>
+
+            <!-- ===== Nacos 依赖 ===== -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-api</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.version}</version>
             </dependency>
 
             <!-- Netty BOM（版本来自 spring-boot-starter-parent 管理的 netty.version 属性） -->

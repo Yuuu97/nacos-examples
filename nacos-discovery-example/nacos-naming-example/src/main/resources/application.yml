@@ -1,0 +1,30 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: nacos-naming-example
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        username: nacos
+        password: nacos
+        ephemeral: true
+
+logging:
+  level:
+    com.alibaba.nacos: DEBUG
+    com.alibaba.nacos.example: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: cluster
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848,127.0.0.1:8849,127.0.0.1:8850

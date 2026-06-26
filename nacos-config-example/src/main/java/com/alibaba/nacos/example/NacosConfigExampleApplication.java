@@ -29,6 +29,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *    遍历所有 NacosPropertySource → registerNacosListener(…) 为每个配置
  *    通过 gRPC 双向流注册监听器 → 准备接收服务端推送
  *
+ * 配置中心篇扩展覆盖（对应文章四~六）：
+ * - 配置中心服务端：事件总线与数据持久化
+ * - gRPC 推送链路：配置变更下发与动态刷新
+ * - 三级缓存体系：Failover 容灾 → gRPC 远程 → Snapshot 本地快照降级兜底
+ *
  * @EnableScheduling 的作用：
  * 启用 Spring 定时任务调度，配合 ConfigChangeMonitor 中的 @Scheduled 方法，
  * 定时打印当前配置值，直观展示配置变更前后的对比效果
@@ -57,6 +62,11 @@ public class NacosConfigExampleApplication {
         log.info("    POST /nacos/publish?dataId=xx - 发布配置");
         log.info("    POST /nacos/publish-cas?dataId=xx - CAS 发布配置");
         log.info("    GET  /nacos/health          - 查看 Server 健康状态");
+        log.info("    GET  /config/snapshot        - 查看本地快照状态");
+        log.info("    POST /nacos/publish-advanced  - 高级配置发布（指定类型）");
+        log.info("    DELETE /nacos/remove          - 删除配置");
+        log.info("    GET  /nacos/server-status     - 查看 Server 健康状态");
+        log.info("    GET  /config/cache-stats      - 缓存状态统计");
         log.info("=====================================================");
     }
 }

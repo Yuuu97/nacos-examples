@@ -1,0 +1,29 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: nacos-grpc-connection-example
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: public
+        username: nacos
+        password: nacos
+
+logging:
+  level:
+    com.alibaba.nacos: DEBUG
+    com.alibaba.nacos.example: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: cluster
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848,127.0.0.1:8849,127.0.0.1:8850
